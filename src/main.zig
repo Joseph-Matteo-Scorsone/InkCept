@@ -184,8 +184,8 @@ pub fn main() !void {
     }
 
     std.log.info("\n=== Knowledge Graph Summary ===", .{});
-    std.log.info("Most connected concept: '{d}' with {d} relations", .{ most_connected_concept, max_relations });
-    std.log.info("Most complex concept: '{d}' with complexity {d:.3}", .{ most_complex_concept, highest_complexity });
+    std.log.info("Most connected concept: '{s}' with {d} relations", .{ most_connected_concept, max_relations });
+    std.log.info("Most complex concept: '{s}' with complexity {d:.3}", .{ most_complex_concept, highest_complexity });
 
     // =============================================================================
     // EXAMPLE 8: Save knowledge graph state (conceptual)
@@ -224,53 +224,4 @@ pub fn main() !void {
     try knowledge_engine.waitForAllActors();
 
     std.log.info("\n=== Enhanced Simulation Complete ===", .{});
-}
-
-// =============================================================================
-// HELPER FUNCTIONS FOR DOCUMENT PROCESSING
-// =============================================================================
-
-// Function to read a file and process it
-pub fn processDocumentFile(allocator: Allocator, file_path: []const u8, engine: *KnowledgeEngine) !void {
-    const file = std.fs.cwd().openFile(file_path, .{}) catch |err| {
-        std.log.err("Failed to open file '{s}': {error}", .{ file_path, err });
-        return;
-    };
-    defer file.close();
-
-    const file_size = try file.getEndPos();
-    const contents = try allocator.alloc(u8, file_size);
-    defer allocator.free(contents);
-
-    _ = try file.readAll(contents);
-
-    std.log.info("Processing file: {s} ({d} bytes)", .{ file_path, file_size });
-    try processDocument(allocator, contents, engine);
-}
-
-// Function to process multiple documents from a directory
-pub fn processDocumentDirectory(allocator: Allocator, dir_path: []const u8, engine: *KnowledgeEngine) !void {
-    var dir = std.fs.cwd().openIterableDir(dir_path, .{}) catch |err| {
-        std.log.err("Failed to open directory '{s}': {error}", .{ dir_path, err });
-        return;
-    };
-    defer dir.close();
-
-    var iterator = dir.iterate();
-    while (try iterator.next()) |entry| {
-        if (entry.kind == .file) {
-            // Check if it's a text file
-            if (std.mem.endsWith(u8, entry.name, ".txt") or
-                std.mem.endsWith(u8, entry.name, ".md"))
-            {
-                const file_path = try std.fmt.allocPrint(allocator, "{s}/{s}", .{ dir_path, entry.name });
-                defer allocator.free(file_path);
-
-                try processDocumentFile(allocator, file_path, engine);
-
-                // Small delay between files to allow processing
-                std.time.sleep(100_000_000); // 100ms
-            }
-        }
-    }
 }

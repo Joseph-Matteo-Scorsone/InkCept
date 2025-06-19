@@ -559,7 +559,7 @@ pub const DocumentParser = struct {
                 most_frequent = entry.value_ptr.word;
             }
         }
-        std.log.info("Most frequent word: '{any}' ({any})", .{ most_frequent, max_freq });
+        std.log.info("Most frequent word: '{s}' ({d})", .{ most_frequent, max_freq });
     }
 };
 
