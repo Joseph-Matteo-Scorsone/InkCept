@@ -1,0 +1,20 @@
+Title: Edgar Morin and the Complexity Paradigm
+
+Edgar Morin is a French philosopher and sociologist whose work revolves around the concept of complexity. He argues that reductionist thinking fails to capture the interwoven, dynamic nature of reality.
+
+Core Concepts:
+- Complex Thought: Opposes linear, binary logic in favor of multidimensional, recursive understanding.
+- Dialogic Principle: Recognizes the coexistence of order and disorder, unity and separation.
+- Ecology of Action: Once an action is initiated, it enters a world of interactions and feedbacks beyond the control of its originator.
+- Reform of Thought: Morin calls for an education that teaches how to contextualize, connect, and reflect rather than merely memorize data.
+
+Comparison with Taleb:
+- Both reject linear forecasting and emphasize uncertainty.
+- Taleb frames this in terms of randomness, fragility, and robustness (e.g., antifragility).
+- Morin emphasizes the need for new modes of thinking that embrace systemic interactions.
+
+Impact:
+Morin's ideas influenced education reform, transdisciplinary studies, and systems theory. He provides a framework for thinking in a world where causes and effects are entangled, uncertain, and constantly evolving.
+
+Quotes:
+"We must learn to navigate in a sea of uncertainties through archipelagos of certainties."

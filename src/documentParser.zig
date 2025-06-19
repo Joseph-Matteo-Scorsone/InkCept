@@ -590,3 +590,25 @@ pub fn processDocument(allocator: Allocator, text: []const u8, engine: *Knowledg
     // Build knowledge graph
     try parser.buildKnowledgeGraph(engine);
 }
+
+pub fn fileToText(allocator: Allocator, file_path: []const u8) ![]const u8 {
+    var file = try std.fs.cwd().openFile(file_path, .{});
+    defer file.close();
+
+    var buffered = std.io.bufferedReader(file.reader());
+    var in_stream = buffered.reader();
+
+    var text = std.ArrayList(u8).init(allocator);
+    defer text.deinit();
+
+    var buf: [1024]u8 = undefined;
+    while (true) {
+        const line = try in_stream.readUntilDelimiterOrEof(&buf, '\n');
+        if (line == null) break;
+
+        try text.appendSlice(line.?);
+        try text.append('\n'); // Preserve newlines
+    }
+
+    return text.toOwnedSlice(); // returns []u8, implicitly castable to []const u8
+}

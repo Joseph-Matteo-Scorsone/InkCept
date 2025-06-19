@@ -3,6 +3,7 @@ const Allocator = std.mem.Allocator;
 
 const KnowledgeEngine = @import("knowledgeEngine.zig").KnowledgeEngine;
 const processDocument = @import("documentParser.zig").processDocument;
+const fileToText = @import("documentParser.zig").fileToText;
 
 pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
@@ -19,18 +20,8 @@ pub fn main() !void {
     // EXAMPLE 1: Process a sample document about animals
     // =============================================================================
 
-    const sample_text =
-        \\Dogs are loyal animals that make great pets. A dog is a mammal and belongs to the canine family.
-        \\Cats are independent animals that also make wonderful pets. A cat is a mammal and is part of the feline family.
-        \\Both dogs and cats are domestic animals. Dogs bark while cats meow to communicate.
-        \\Mammals are warm-blooded animals that give birth to live young. Mammals have hair or fur.
-        \\Pets require care and attention from their owners. Good pets provide companionship.
-        \\The canine family includes wolves, dogs, and foxes. The feline family includes lions, tigers, and cats.
-        \\Training helps dogs learn commands and become better pets. Cats are naturally clean animals.
-        \\Veterinarians help keep pets healthy. Regular checkups are important for pet health.
-        \\Pet food provides nutrition for domestic animals. Water is essential for all animals.
-        \\Exercise keeps pets healthy and happy. Playing with pets strengthens the bond between pets and owners.
-    ;
+    const sample_text = try fileToText(allocator, "example.txt");
+    defer allocator.free(sample_text);
 
     std.log.info("\n=== Processing Sample Document ===", .{});
     try processDocument(allocator, sample_text, &knowledge_engine);
@@ -45,7 +36,7 @@ pub fn main() !void {
     std.log.info("\n=== Exploring Created Knowledge Graph ===", .{});
 
     // Query some concepts that should have been created
-    const queries = [_][]const u8{ "dogs", "cats", "animals", "mammals", "pets", "family" };
+    const queries = [_][]const u8{ "events", "publication", "antifragile", "swan", "title", "summary" };
 
     for (queries) |query| {
         if (try knowledge_engine.query(query)) |concept_id| {
@@ -65,20 +56,20 @@ pub fn main() !void {
 
     std.log.info("\n=== Testing Knowledge Propagation ===", .{});
 
-    // Activate "dogs" and see how activation spreads
-    if (try knowledge_engine.query("dogs")) |dogs_id| {
-        std.log.info("Activating 'dogs' concept...", .{});
+    // Activate "events" and see how activation spreads
+    if (try knowledge_engine.query("events")) |id| {
+        std.log.info("Activating 'events' concept...", .{});
 
         // Give multiple activations to trigger strong propagation
         for (0..5) |_| {
-            try knowledge_engine.activateConcept(dogs_id);
+            try knowledge_engine.activateConcept(id);
         }
 
         // Wait for propagation
         std.time.sleep(300_000_000); // 300ms
 
         // Check related concepts that should have received activation
-        const related_concepts = [_][]const u8{ "animals", "mammals", "pets", "canine" };
+        const related_concepts = [_][]const u8{ "book", "decision", "disorder", "implications" };
 
         for (related_concepts) |concept_name| {
             if (knowledge_engine.findConcept(concept_name)) |concept_id| {
@@ -95,20 +86,11 @@ pub fn main() !void {
 
     std.log.info("\n=== Processing Multiple Document Types ===", .{});
 
-    // Example: Process a technical document
-    const technical_text =
-        \\Artificial intelligence is a branch of computer science. Machine learning is part of artificial intelligence.
-        \\Neural networks are computational models inspired by biological neural networks. Deep learning uses neural networks.
-        \\Algorithms process data to make predictions. Training data helps algorithms learn patterns.
-        \\Classification algorithms categorize data into different classes. Regression algorithms predict continuous values.
-        \\Natural language processing enables computers to understand human language. Computer vision allows machines to interpret images.
-        \\Supervised learning uses labeled data for training. Unsupervised learning finds patterns in unlabeled data.
-        \\Reinforcement learning learns through trial and error. Feedback helps improve algorithm performance.
-        \\Big data requires specialized tools for processing. Cloud computing provides scalable resources.
-        \\Data scientists analyze data to extract insights. Machine learning engineers build and deploy models.
-    ;
+    // Process a different document
+    const different_text = try fileToText(allocator, "differentExample.txt");
+    defer allocator.free(different_text);
 
-    try processDocument(allocator, technical_text, &knowledge_engine);
+    try processDocument(allocator, different_text, &knowledge_engine);
 
     // Wait for processing
     std.time.sleep(300_000_000);
@@ -121,7 +103,7 @@ pub fn main() !void {
 
     // Now we have concepts from both animal domain and AI domain
     // Let's see how they might interact
-    const cross_domain_queries = [_][]const u8{ "learning", "intelligence", "training", "processing", "data", "patterns" };
+    const cross_domain_queries = [_][]const u8{ "unity", "seperation", "theory", "systems", "framework", "education" };
 
     for (cross_domain_queries) |query| {
         if (try knowledge_engine.query(query)) |concept_id| {
@@ -140,7 +122,7 @@ pub fn main() !void {
     // Run a longer simulation to see concept evolution
     for (0..20) |cycle| {
         // Randomly activate concepts from our vocabulary
-        const random_concepts = [_][]const u8{ "dogs", "cats", "animals", "intelligence", "learning", "data", "pets", "algorithms", "training", "patterns", "mammals", "neural" };
+        const random_concepts = [_][]const u8{ "events", "publication", "antifragile", "swan", "title", "summary", "unity", "seperation", "theory", "systems", "framework", "education" };
 
         // Activate 2-3 random concepts each cycle
         const activations_per_cycle = 2 + (cycle % 2);
@@ -176,7 +158,7 @@ pub fn main() !void {
     std.log.info("\n=== Final Knowledge Graph Analysis ===", .{});
 
     // Analyze the most connected concepts
-    const analysis_concepts = [_][]const u8{ "animals", "learning", "training", "data", "intelligence", "mammals", "pets" };
+    const analysis_concepts = [_][]const u8{ "events", "publication", "antifragile", "swan", "title", "summary" };
 
     var most_connected_concept: []const u8 = "";
     var max_relations: usize = 0;
@@ -291,43 +273,4 @@ pub fn processDocumentDirectory(allocator: Allocator, dir_path: []const u8, engi
             }
         }
     }
-}
-
-// Function to demonstrate batch processing
-pub fn demonstrateBatchProcessing(allocator: Allocator, engine: *KnowledgeEngine) !void {
-    std.log.info("\n=== Batch Document Processing Demo ===", .{});
-
-    const documents = [_][]const u8{
-        // Document 1: Science
-        \\Physics is the study of matter and energy. Chemistry examines the composition of substances.
-        \\Biology investigates living organisms and their processes. Mathematics provides tools for scientific analysis.
-        \\Experiments test scientific hypotheses. Data collection supports scientific research.
-        \\Scientists use the scientific method to investigate natural phenomena.
-        ,
-
-        // Document 2: Technology
-        \\Computers process information using binary code. Software controls computer hardware.
-        \\Programming languages enable software development. Databases store and organize data.
-        \\Networks connect computers for communication. Internet protocols enable global connectivity.
-        \\Cybersecurity protects digital systems from threats.
-        ,
-
-        // Document 3: Medicine
-        \\Doctors diagnose and treat medical conditions. Nurses provide patient care and support.
-        \\Hospitals serve as centers for medical treatment. Medicine involves the study of human health.
-        \\Diseases affect the normal functioning of the body. Treatment aims to restore health.
-        \\Prevention helps avoid illness and maintains wellness.
-        ,
-    };
-
-    for (documents, 0..) |document, i| {
-        std.log.info("Processing document {d} of {d}", .{ i + 1, documents.len });
-        try processDocument(allocator, document, engine);
-
-        // Allow processing time between documents
-        std.time.sleep(200_000_000); // 200ms
-    }
-
-    std.log.info("Batch processing completed. Running final maintenance...", .{});
-    try engine.runMaintenance();
 }

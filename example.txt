@@ -1,0 +1,23 @@
+Book Title: Fooled by Randomness
+Publication Year: 2001
+Summary: Explores the role of randomness in financial markets and life. Argues that humans are prone to misinterpret chance events as patterns.
+
+Book Title: The Black Swan
+Publication Year: 2007
+Summary: Introduces the concept of "Black Swan" events—rare, unpredictable events with massive impact. Emphasizes the limitations of models and forecasts.
+
+Book Title: The Bed of Procrustes
+Publication Year: 2010
+Summary: A collection of aphorisms and philosophical reflections on modernity, risk, and knowledge. Written in a sharp, laconic style.
+
+Book Title: Antifragile
+Publication Year: 2012
+Summary: Proposes a new category beyond resilience—systems that gain from disorder. Explores strategies to become antifragile in business, health, and life.
+
+Book Title: Skin in the Game
+Publication Year: 2018
+Summary: Focuses on ethics, accountability, and risk-taking. Argues that decision-makers should share in the consequences of their actions.
+
+Series Title: Incerto
+Includes: Fooled by Randomness, The Black Swan, The Bed of Procrustes, Antifragile, Skin in the Game
+Theme: Uncertainty, probability, human error, and the philosophical implications of randomness.
