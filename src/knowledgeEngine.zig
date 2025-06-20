@@ -194,7 +194,7 @@ const Concept = struct {
     }
 
     fn activate(self: *Self) void {
-        // Since f64 doesn't support atomic compare-and-swap, we'll use a simpler approach
+        
         const current_activation = self.activation.load(.seq_cst);
         self.activation.store(current_activation + 0.1, .seq_cst);
 

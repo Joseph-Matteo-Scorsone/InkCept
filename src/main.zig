@@ -17,7 +17,7 @@ pub fn main() !void {
     std.log.info("=== Autopoietic Knowledge Engine with Document Processing ===", .{});
 
     // =============================================================================
-    // EXAMPLE 1: Process a sample document about animals
+    // Process a sample document
     // =============================================================================
 
     const sample_text = try fileToText(allocator, "example.txt");
@@ -30,7 +30,7 @@ pub fn main() !void {
     std.time.sleep(200_000_000); // 200ms
 
     // =============================================================================
-    // EXAMPLE 2: Query and explore the created knowledge graph
+    // Query and explore the created knowledge graph
     // =============================================================================
 
     std.log.info("\n=== Exploring Created Knowledge Graph ===", .{});
@@ -51,7 +51,7 @@ pub fn main() !void {
     }
 
     // =============================================================================
-    // EXAMPLE 3: Demonstrate knowledge propagation
+    // Demonstrate knowledge propagation
     // =============================================================================
 
     std.log.info("\n=== Testing Knowledge Propagation ===", .{});
@@ -81,7 +81,7 @@ pub fn main() !void {
     }
 
     // =============================================================================
-    // EXAMPLE 4: Advanced document processing with file reading
+    // Different document reading
     // =============================================================================
 
     std.log.info("\n=== Processing Multiple Document Types ===", .{});
@@ -96,7 +96,7 @@ pub fn main() !void {
     std.time.sleep(300_000_000);
 
     // =============================================================================
-    // EXAMPLE 5: Cross-domain knowledge integration
+    // Cross-domain knowledge integration
     // =============================================================================
 
     std.log.info("\n=== Cross-Domain Knowledge Integration ===", .{});
@@ -114,7 +114,7 @@ pub fn main() !void {
     }
 
     // =============================================================================
-    // EXAMPLE 6: Simulation with maintenance and evolution
+    // Simulation with maintenance and evolution
     // =============================================================================
 
     std.log.info("\n=== Running Extended Simulation ===", .{});
@@ -152,7 +152,7 @@ pub fn main() !void {
     }
 
     // =============================================================================
-    // EXAMPLE 7: Final analysis and reporting
+    // Final analysis and reporting
     // =============================================================================
 
     std.log.info("\n=== Final Knowledge Graph Analysis ===", .{});
@@ -188,13 +188,10 @@ pub fn main() !void {
     std.log.info("Most complex concept: '{s}' with complexity {d:.3}", .{ most_complex_concept, highest_complexity });
 
     // =============================================================================
-    // EXAMPLE 8: Save knowledge graph state (conceptual)
+    // Save knowledge graph state (conceptual)
     // =============================================================================
 
     std.log.info("\n=== Saving Knowledge Graph State ===", .{});
-
-    // This would be where you'd implement serialization
-    // For now, we'll just demonstrate the concept
 
     var concept_count: u32 = 0;
     var total_relations: u32 = 0;

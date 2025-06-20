@@ -610,5 +610,5 @@ pub fn fileToText(allocator: Allocator, file_path: []const u8) ![]const u8 {
         try text.append('\n'); // Preserve newlines
     }
 
-    return text.toOwnedSlice(); // returns []u8, implicitly castable to []const u8
+    return text.toOwnedSlice();
 }
