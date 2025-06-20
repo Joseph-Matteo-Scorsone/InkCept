@@ -84,7 +84,7 @@ pub fn main() !void {
     // Different document reading
     // =============================================================================
 
-    std.log.info("\n=== Processing Multiple Document Types ===", .{});
+    std.log.info("\n=== Processing Sample Document ===", .{});
 
     // Process a different document
     const different_text = try fileToText(allocator, "differentExample.txt");
@@ -188,7 +188,7 @@ pub fn main() !void {
     std.log.info("Most complex concept: '{s}' with complexity {d:.3}", .{ most_complex_concept, highest_complexity });
 
     // =============================================================================
-    // Save knowledge graph state (conceptual)
+    // Save knowledge graph state
     // =============================================================================
 
     std.log.info("\n=== Saving Knowledge Graph State ===", .{});
@@ -220,5 +220,5 @@ pub fn main() !void {
     // Wait for all actors to finish processing
     try knowledge_engine.waitForAllActors();
 
-    std.log.info("\n=== Enhanced Simulation Complete ===", .{});
+    std.log.info("\n=== End ===", .{});
 }
