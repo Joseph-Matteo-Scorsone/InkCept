@@ -27,7 +27,7 @@ pub fn main() !void {
     try processDocument(allocator, sample_text, &knowledge_engine);
 
     // Wait for message propagation
-    std.time.sleep(200_000_000); // 200ms
+    try knowledge_engine.waitForAllActors();
 
     // =============================================================================
     // Query and explore the created knowledge graph
@@ -65,9 +65,6 @@ pub fn main() !void {
             try knowledge_engine.activateConcept(id);
         }
 
-        // Wait for propagation
-        std.time.sleep(300_000_000); // 300ms
-
         // Check related concepts that should have received activation
         const related_concepts = [_][]const u8{ "book", "decision", "disorder", "implications" };
 
@@ -91,9 +88,6 @@ pub fn main() !void {
     defer allocator.free(different_text);
 
     try processDocument(allocator, different_text, &knowledge_engine);
-
-    // Wait for processing
-    std.time.sleep(300_000_000);
 
     // =============================================================================
     // Cross-domain knowledge integration
@@ -216,9 +210,6 @@ pub fn main() !void {
         std.log.info("  Average relations per concept: {d:.2}", .{avg_relations});
         std.log.info("  Average activation level: {d:.3}", .{avg_activation});
     }
-
-    // Wait for all actors to finish processing
-    try knowledge_engine.waitForAllActors();
 
     std.log.info("\n=== End ===", .{});
 }

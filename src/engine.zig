@@ -188,14 +188,16 @@ pub const Engine = struct {
         }
     }
 
-    /// Cleans up all actors by deinitializing and removing them.
+    /// Cleans up one actor by deinitializing and removing it.
     pub fn poisonActor(self: *Self, comptime TStruct: type, actor_id: u64) !void {
         self.mutex.lock();
         defer self.mutex.unlock();
 
         if (self.actors.get(actor_id)) |handle_ptr| {
             const actor = @as(*Actor(TStruct), @ptrCast(@alignCast(handle_ptr.actor_ptr)));
-            actor.t_struct.deinit();
+            _ = self.actors.remove(actor.actor_id);
+            actor.deinit();
+            self.allocator.destroy(handle_ptr);
         } else {
             return error.ActorNotFound;
         }
