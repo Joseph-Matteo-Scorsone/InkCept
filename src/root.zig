@@ -3,3 +3,7 @@ pub const Actor = @import("actor.zig").Actor;
 pub const Message = @import("message.zig").Message;
 pub const ConcurrentHashMap = @import("concurrentHashMap.zig").ConcurrentHashMap;
 pub const LockFreeQueue = @import("lockFreeQueue.zig").LockFreeQueue;
+pub const KnowledgeEngine = @import("knowledgeEngine.zig").KnowledgeEngine;
+pub const RelationType = @import("knowledgeEngine.zig").RelationType;
+pub const fileToText = @import("documentParser.zig").fileToText;
+pub const processDocument = @import("documentParser.zig").processDocument;
