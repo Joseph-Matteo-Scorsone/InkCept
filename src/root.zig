@@ -7,3 +7,4 @@ pub const KnowledgeEngine = @import("knowledgeEngine.zig").KnowledgeEngine;
 pub const RelationType = @import("knowledgeEngine.zig").RelationType;
 pub const fileToText = @import("documentParser.zig").fileToText;
 pub const processDocument = @import("documentParser.zig").processDocument;
+pub const Concept = @import("knowledgeEngine.zig").Concept;

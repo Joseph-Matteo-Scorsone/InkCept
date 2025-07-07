@@ -6,7 +6,7 @@ const Engine = @import("engine.zig").Engine;
 const Message = @import("message.zig").Message;
 const InstructionPayload = @import("message.zig").InstructionPayload;
 
-const RelationType = enum {
+pub const RelationType = enum {
     Causes,
     IsA,
     PartOf,
@@ -114,7 +114,7 @@ const RelationContext = struct {
     }
 };
 
-const Concept = struct {
+pub const Concept = struct {
     const Self = @This();
     // const RelationList = ConcurrentArrayList(Relation);
 
@@ -194,7 +194,6 @@ const Concept = struct {
     }
 
     fn activate(self: *Self) void {
-        
         const current_activation = self.activation.load(.seq_cst);
         self.activation.store(current_activation + 0.1, .seq_cst);
 
@@ -360,6 +359,12 @@ const Concept = struct {
         self.energy.store(@max(0.0, current_energy * 0.99), .seq_cst);
     }
 
+    pub fn getRelations(self: *Self) []Relation {
+        self.relations_mutex.lock();
+        defer self.relations_mutex.unlock();
+        return self.relations.items;
+    }
+
     pub fn getStats(self: *Self) struct { activation: f64, energy: f64, stability: f64, complexity: f64, relations: usize } {
         const relation_count = self.relations.items.len;
 
@@ -508,6 +513,16 @@ pub const KnowledgeEngine = struct {
 
             std.log.info("Maintenance cycle completed for {} concepts", .{self.concept_actors.count});
         }
+    }
+
+    pub fn getConceptRelations(self: *Self, concept_id: u64) !?[]Relation {
+        const maybe_actor_id = self.concept_actors.get(concept_id);
+
+        if (maybe_actor_id) |actor_id| {
+            const concept_ptr = try self.engine.getActorState(Concept, actor_id);
+            return concept_ptr.getRelations();
+        }
+        return null;
     }
 
     pub fn getConceptStats(self: *Self, concept_id: u64) !?@TypeOf(Concept.getStats(@as(*Concept, undefined))) {
