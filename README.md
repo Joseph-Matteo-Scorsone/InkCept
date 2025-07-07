@@ -55,16 +55,18 @@ Project Structure
 ```
 InkCept/
 ├── src/
-│   ├── knowledge_engine.zig    # Main KnowledgeEngine implementation
-│   ├── concept.zig            # Concept actor implementation
+│   ├── knowledge_engine.zig   # Main KnowledgeEngine implementation
+│   ├── documentParser.zig     # Document reader
+│   ├── actor.zig              # Actor implementation
 │   ├── engine.zig             # Actor system engine
 │   ├── message.zig            # Message passing system
 │   └── concurrentHashMap.zig  # Thread-safe hash map
+|   └── lockFreeQueue.zig      # Thread-safe queue
 ├── tests/
 │   └── knowledge_tests.zig    # Comprehensive test suite
-├── examples/
-│   ├── example.txt            # Sample document for testing
-│   └── differentExample.txt   # Additional test document
+|
+├── example.txt                # Sample document for testing
+├── differentExample.txt       # Additional test document
 └── build.zig                  # Zig build configuration
 
 ```
