@@ -154,7 +154,7 @@ pub const Concept = struct {
 
     pub fn deinit(self: *Self) void {
         self.allocator.free(self.term);
-        self.relations.deinit(); // Free the ConcurrentHashMap's resources
+        self.relations.deinit(); // Free the resources
         self.allocator.destroy(self); // Free the Concept struct itself
     }
 
