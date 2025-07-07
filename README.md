@@ -1,4 +1,4 @@
-InkCept - Intelligent Knowledge Engine
+# InkCept - Intelligent Knowledge Engine
 
 InkCept is a concurrent, actor-based knowledge representation and processing system written in Zig. It implements a dynamic knowledge graph where concepts are represented as autonomous actors that can activate, learn, form relationships, and evolve over time.
 
